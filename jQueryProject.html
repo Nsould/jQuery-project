@@ -1,0 +1,159 @@
+<html>
+
+<head>
+
+  <title>jQuery Project</title>
+
+  <!-- connects to Google's API to get jQuery
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+  <!-- connects to jQuery locally; can be used offline. downloaded from jQuery website -->
+  <script src="jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
+
+  <style type="text/css">
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    #topBar {
+      background-color: #EEEEEE;
+      width: 100%;
+      height: 30px;
+      padding: 5px;
+    }
+
+    #cPlayer {
+      padding: 5px 3px 3px 10px;
+      font-weight: bold;
+      font-size: 110%;
+    }
+
+    #buttonContainer {
+      position: fixed;
+      left: 40%;
+      top: 6px;
+    }
+
+    .toggleButtons {
+      position: relative;
+      float: left;
+      padding: 4px;
+      font-size: 80%;
+      border: 1px solid grey;
+      border-right: none;
+    }
+
+    #html {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    #output {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-right: 1px solid grey;
+    }
+
+    .active {
+      background-color: pink;
+    }
+
+    .highlightedButton {
+      background-color: orange;
+    }
+
+    textarea {
+      resize: none;
+      border-top: none;
+      border-color: grey;
+    }
+
+    .panel {
+      float: left;
+      width: 50%;
+      border-left: none;
+      padding-left: 2px;
+    }
+
+    iframe {
+      border: none;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+  </style>
+
+</head>
+
+<body>
+  <div id = "topBar">
+    <div id = "cPlayer">
+      CodePlayer
+    </div>
+
+<!-- remember to containt everything in order to maintain order and neatness! -->
+    <div id = "buttonContainer">
+      <div class = "toggleButtons active" id = "html">HTML</div>
+      <div class = "toggleButtons" id = "css">CSS</div>
+      <div class = "toggleButtons" id = "js">JavaScript</div>
+      <div class = "toggleButtons active" id = "output">Output</div>
+    </div>
+  </div>
+
+  <div id = "bodyContainer">
+    <textarea id = "htmlText" class = "panel"><p id = "paragraph">Hello World!</p></textarea>
+    <textarea id = "cssText" class = "panel hidden">p {color: green;}</textarea>
+    <textarea id = "jsText" class = "panel hidden">document.getElementById('paragraph').innerHTML = "Hola";</textarea>
+    <iframe id = "outputText" class = "panel"></iframe>
+  </div>
+
+  <script type="text/javascript">
+
+  //create a function for code that would otherwise be written exactly as is more than once!
+    function updateOutput() {
+      //takes the HTML and CSS contents from their panels and reads/runs them thru the output iframe
+      $("iframe").contents().find("html").html("<html><head><style type = 'text/css'>" + $("#cssText").val() + "</style></head><body>" + $("#htmlText").val() + "</body></html>");
+      //takes JS content from its panel and runs thru output frame
+      document.getElementById("outputText").contentWindow.eval($("#jsText").val());
+      //runs JS in the iframe itself; has to be seperate (security reasons)
+      //eval($("#jsText").val());
+    }
+    //button hover effects (highlight color)
+    $(".toggleButtons").hover(function() {
+      $(this).addClass("highlightedButton");
+    }, function() {
+      $(this).removeClass("highlightedButton");
+    });
+    //button 'on-click' action effects
+    $(".toggleButtons").click(function() {
+      $(this).toggleClass("active");
+      $(this).removeClass("highlightedButton");
+      var panelId = $(this).attr("id") + "Text";
+      $("#" + panelId).toggleClass("hidden");
+      //counts number of elements that have the class 'hidden'
+      var closedPanels = $('.hidden').length
+      //adjusts panel width depending on how many pannes are closed vs open
+      $(".panel").width(($(window).width() / (4 - closedPanels)) - 10);
+    });
+    //adjusts starting window height and width
+    $(".panel").height($(window).height() - $("#topBar").height() - 15);
+    $(".panel").width(($(window).width() / 2) - 4);
+    //calls function to run and display HTML,CSS, and JS contents in iframe
+    updateOutput();
+    //runs HTML, CSS and JS within browser; updates on every 'keyup' (keystroke)
+    $("textarea").on('change keyup paste', function() {
+      updateOutput();
+    });
+
+  </script>
+
+</body>
+
+</html>
