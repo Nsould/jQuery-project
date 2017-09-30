@@ -4,10 +4,6 @@
 
   <title>jQuery Project</title>
 
-  <!-- connects to Google's API to get jQuery
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-
-  <!-- connects to jQuery locally; can be used offline. downloaded from jQuery website -->
   <script src="jquery.min.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link href="jquery-ui/jquery-ui.css" rel="stylesheet">
@@ -98,7 +94,6 @@
       CodePlayer
     </div>
 
-<!-- remember to containt everything in order to maintain order and neatness! -->
     <div id = "buttonContainer">
       <div class = "toggleButtons active" id = "html">HTML</div>
       <div class = "toggleButtons" id = "css">CSS</div>
@@ -116,7 +111,6 @@
 
   <script type="text/javascript">
 
-  //create a function for code that would otherwise be written exactly as is more than once!
     function updateOutput() {
       //takes the HTML and CSS contents from their panels and reads/runs them thru the output iframe
       $("iframe").contents().find("html").html("<html><head><style type = 'text/css'>" + $("#cssText").val() + "</style></head><body>" + $("#htmlText").val() + "</body></html>");
