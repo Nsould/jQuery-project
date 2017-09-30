@@ -1,4 +1,3 @@
-//create a function for code that would otherwise be written exactly as is more than once!
   function updateOutput() {
     //takes the HTML and CSS contents from their panels and reads/runs them thru the output iframe
     $("iframe").contents().find("html").html("<html><head><style type = 'text/css'>" + $("#cssText").val() + "</style></head><body>" + $("#htmlText").val() + "</body></html>");
